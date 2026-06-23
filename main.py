@@ -1,29 +1,15 @@
 import pandas as pd
-import glob
 
-# Read all CSV files from data folder
-files = glob.glob("data/*.csv")
+df = pd.read_csv("daily_sales_data_0.csv")
 
-all_data = []
+df = df[df["product"] == "pink morsel"]
 
-for file in files:
-    df = pd.read_csv(file)
+df["price"] = df["price"].replace("[$,]", "", regex=True).astype(float)
 
-    # Keep only Pink Morsel rows
-    df = df[df["product"] == "pink morsel"]
+df["sales"] = df["price"] * df["quantity"]
 
-    # Create Sales column
-    df["sales"] = df["price"] * df["quantity"]
+final_df = df[["sales", "date", "region"]]
 
-    # Keep only required columns
-    df = df[["sales", "date", "region"]]
-
-    all_data.append(df)
-
-# Combine all files
-final_df = pd.concat(all_data)
-
-# Save output file
 final_df.to_csv("output.csv", index=False)
 
 print("Output file created successfully!")
