@@ -12,6 +12,7 @@ app.layout = html.Div([
 
     html.H1(
         "Soul Foods Sales Visualizer",
+        id = "header",
         style={
             "textAlign": "center",
             "color": "#2c3e50",
